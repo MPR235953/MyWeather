@@ -2,14 +2,15 @@ package com.example.myweather
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.Window
-import android.view.WindowManager
+import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import java.net.URL
 
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     val API_KEY: String = "42f9f62e465cc1855d6cd834e0f11440"
     lateinit var city: String
     lateinit var tvConnStatus: TextView
+    private lateinit var btnSubmit: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +27,17 @@ class MainActivity : AppCompatActivity() {
         tvConnStatus = findViewById(R.id.connection_status)
         //weatherTask().execute()
         var t = isOnline(this)
-        print("sth")
+
+        btnSubmit = findViewById(R.id.btnSubmit)
+        btnSubmit.setOnClickListener{
+            val intent: Intent = Intent(this, WeatherActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    fun toWeather(view: View){
+        val intent: Intent = Intent(this, WeatherActivity::class.java)
+        startActivity(intent)
     }
 
     fun isOnline(context: Context): Boolean {
