@@ -2,9 +2,14 @@ package com.example.myweather
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 
 class WeatherActivity : AppCompatActivity(){
+    lateinit var tvStatus: TextView
+
     private var pointer: Int = 0
     private val fragments = mutableMapOf(
         0 to FragmentWeatherBasicInfo(),
@@ -38,5 +43,15 @@ class WeatherActivity : AppCompatActivity(){
             pointer--
             replaceFragment()
         }
+    }
+
+    fun refresh(view: View){
+        tvStatus = findViewById(R.id.tvStatus)
+        if(!isOnline(this)) {
+            val toast = Toast.makeText(applicationContext, "No internet connection", Toast.LENGTH_SHORT)
+            toast.show()
+            tvStatus.isVisible = true
+        }
+        else tvStatus.isVisible = false
     }
 }

@@ -17,11 +17,12 @@
         app:layout_constraintBottom_toTopOf="@id/guideline0">
 
         <TextView
-            android:id="@+id/connection_status"
+            android:id="@+id/tvStatus"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/teal_700"
-            android:text="Status"
+            android:text="Data may be out-of-date"
+            android:visibility="invisible"
             android:textAlignment="center"
             android:gravity="center"
             android:textSize="20dp" />
@@ -99,21 +100,30 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/prev"
+            android:id="@+id/btnPrev"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="prev"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:onClick="prev"
             android:textAllCaps="false" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/next"
+            android:id="@+id/btnNext"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="next"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:onClick="next"
+            android:textAllCaps="false" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="refresh"
+            android:layout_weight="1"
+            android:onClick="refresh"
             android:textAllCaps="false" />
 
     </LinearLayout>

@@ -12,54 +12,35 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.view.isVisible
 import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 
     val API_KEY: String = "42f9f62e465cc1855d6cd834e0f11440"
-    lateinit var city: String
-    lateinit var tvConnStatus: TextView
-    private lateinit var btnSubmit: Button
+    lateinit var CITY: String
+    lateinit var tvStatus: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        tvConnStatus = findViewById(R.id.connection_status)
-        //weatherTask().execute()
-        var t = isOnline(this)
 
-        btnSubmit = findViewById(R.id.btnSubmit)
-        btnSubmit.setOnClickListener{
-            val intent: Intent = Intent(this, WeatherActivity::class.java)
-            startActivity(intent)
+        //weatherTask().execute()
+
+        tvStatus = findViewById(R.id.tvStatus)
+        if(!isOnline(this)) {
+            val toast = Toast.makeText(applicationContext, "No internet connection", Toast.LENGTH_SHORT)
+            toast.show()
+            tvStatus.isVisible = true
         }
+        else tvStatus.isVisible = false
+
     }
 
     fun toWeather(view: View){
         val intent: Intent = Intent(this, WeatherActivity::class.java)
         startActivity(intent)
-    }
-
-    fun isOnline(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (connectivityManager != null) {
-            val capabilities =
-                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-            if (capabilities != null) {
-                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
-                    return true
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
-                    return true
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
-                    return true
-                }
-            }
-        }
-        return false
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -70,7 +51,7 @@ class MainActivity : AppCompatActivity() {
             var response: String?
             try {
                 response =
-                    URL("https://api.openweathermap.org/data/2.5/weather?q=$city&units=metric&appid=$API_KEY").readText(
+                    URL("https://api.openweathermap.org/data/2.5/weather?q=$CITY&units=metric&appid=$API_KEY").readText(
                         Charsets.UTF_8
                     )
             } catch (e: Exception) {
@@ -81,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
-            tvConnStatus.setText("OK")
+            tvStatus.setText("OK")
         }
     }
 }

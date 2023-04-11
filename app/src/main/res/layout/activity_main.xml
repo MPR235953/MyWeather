@@ -17,11 +17,12 @@
         app:layout_constraintBottom_toTopOf="@id/guideline0">
 
         <TextView
-            android:id="@+id/connection_status"
+            android:id="@+id/tvStatus"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/teal_700"
-            android:text="Status"
+            android:text="Data may be out-of-date"
+            android:visibility="invisible"
             android:textAlignment="center"
             android:gravity="center"
             android:textSize="20dp" />
@@ -83,6 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Submit"
+            android:onClick="toWeather"
             android:textAllCaps="false"/>
 
         <androidx.appcompat.widget.AppCompatButton
