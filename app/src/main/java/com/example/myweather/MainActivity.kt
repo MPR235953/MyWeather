@@ -44,4 +44,9 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("weather_parser", weatherParser)
         startActivity(intent)
     }
+
+    fun toSettings(view: View){
+        val intent: Intent = Intent(this, SettingsActivity::class.java)
+        startActivity(intent)
+    }
 }

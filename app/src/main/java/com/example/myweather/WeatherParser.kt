@@ -11,18 +11,18 @@ class WeatherParser : java.io.Serializable{
     var city: String
     private var api_key: String
 
-    // Basic
     companion object {
+        // Basic
         var time: String = ""
-    }
-    var cords = arrayOf(0.0, 0.0)
-    var temp: Double = 0.0
-    var press: Double = 0.0
+        var cords = arrayOf(0.0, 0.0)
+        var temp: Double = 0.0
+        var press: Double = 0.0
 
-    // Extra
-    var windForce: Double = 0.0
-    var windDirection: Double = 0.0
-    var humidity: Double = 0.0
+        // Extra
+        var windForce: Double = 0.0
+        var windDirection: Double = 0.0
+        var humidity: Double = 0.0
+    }
 
     constructor(city: String, api_key:String){
         this.city = city

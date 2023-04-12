@@ -32,6 +32,14 @@
             android:name=".WeatherActivity"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".FavoritesActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>
