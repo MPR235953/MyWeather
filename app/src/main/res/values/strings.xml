@@ -1,13 +1,36 @@
 <resources>
     <string name="app_name">MyWeather</string>
-    <string-array name="planets_array">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
+    <string-array name="saTemp">
+        <item>Celsius</item>
+        <item>Ferenheit</item>
+    </string-array>
+
+    <string-array name="saTime">
+        <item>12h</item>
+        <item>24h</item>
+    </string-array>
+
+    <string-array name="saPress">
+        <item>hPa</item>
+        <item>Bar</item>
+    </string-array>
+
+    <string-array name="saCords">
+        <item>lat-lon</item>
+    </string-array>
+
+    <string-array name="saWindForce">
+        <item>mph</item>
+        <item>m/s</item>
+        <item>ft/s</item>
+    </string-array>
+
+    <string-array name="saWindDirection">
+        <item>deg</item>
+        <item>NSEW</item>
+    </string-array>
+
+    <string-array name="saHumidity">
+        <item>g.m^(-3)</item>
     </string-array>
 </resources>

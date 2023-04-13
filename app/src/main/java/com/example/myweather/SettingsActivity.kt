@@ -10,17 +10,46 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        val spinner: Spinner = findViewById(R.id.planets_spinner)
-// Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.planets_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
+        val sTemp: Spinner = findViewById(R.id.sTemp)
+        ArrayAdapter.createFromResource(this,R.array.saTemp,android.R.layout.simple_spinner_item).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
-            spinner.adapter = adapter
+            sTemp.adapter = adapter
+        }
+
+        val sTime: Spinner = findViewById(R.id.sTime)
+        ArrayAdapter.createFromResource(this,R.array.saTime,android.R.layout.simple_spinner_item).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            sTime.adapter = adapter
+        }
+
+        val sPress: Spinner = findViewById(R.id.sPress)
+        ArrayAdapter.createFromResource(this,R.array.saPress,android.R.layout.simple_spinner_item).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            sPress.adapter = adapter
+        }
+
+        val sCords: Spinner = findViewById(R.id.sCords)
+        ArrayAdapter.createFromResource(this,R.array.saCords,android.R.layout.simple_spinner_item).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            sCords.adapter = adapter
+        }
+
+        val sWindForce: Spinner = findViewById(R.id.sWindForce)
+        ArrayAdapter.createFromResource(this,R.array.saWindForce,android.R.layout.simple_spinner_item).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            sWindForce.adapter = adapter
+        }
+
+        val sWindDirection: Spinner = findViewById(R.id.sWindDirection)
+        ArrayAdapter.createFromResource(this,R.array.saWindDirection,android.R.layout.simple_spinner_item).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            sWindDirection.adapter = adapter
+        }
+
+        val sHumidity: Spinner = findViewById(R.id.sHumidity)
+        ArrayAdapter.createFromResource(this,R.array.saHumidity,android.R.layout.simple_spinner_item).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            sHumidity.adapter = adapter
         }
     }
 }
