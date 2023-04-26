@@ -3,6 +3,7 @@ package com.example.myweather
 import android.os.AsyncTask.execute
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import androidx.core.view.isVisible
 class WeatherActivity : AppCompatActivity(){
     lateinit var tvStatus: TextView
     lateinit var weatherParser: WeatherParser
+    lateinit var tvCity: TextView
 
     private var pointer: Int = 0
     private val fragments = arrayOf(
@@ -23,6 +25,8 @@ class WeatherActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
         weatherParser = getIntent().getSerializableExtra("weather_parser") as WeatherParser
+        tvCity = findViewById(R.id.tvCity)
+        tvCity.setText(weatherParser.city)
         replaceFragment()
     }
 
