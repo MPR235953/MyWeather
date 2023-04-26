@@ -25,7 +25,7 @@ class FragmentWeatherBasicInfo : MyFragment() {
 
     override fun update(){
         val activity: WeatherActivity = activity as WeatherActivity
-        val jsonData = JSONObject(activity.WEATHER_DATA)
+        val jsonData = JSONObject(activity.CITY_WEATHER_DATA)
 
         val time = SimpleDateFormat("hh:mm:ss").format(Date())
         val cordLon = jsonData.getJSONObject("coord").getDouble("lon")

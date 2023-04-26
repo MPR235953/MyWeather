@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 class FavoritesActivity : AppCompatActivity() {
     lateinit var etCityToAdd: EditText
     lateinit var CITY: String
-    lateinit var WEATHER_DATA: String
+    lateinit var CITY_WEATHER_DATA: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +20,7 @@ class FavoritesActivity : AppCompatActivity() {
 
         etCityToAdd = findViewById(R.id.etCityToAdd)
 
-        //val sharedPreferences = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
+        //val sharedPreferences = getSharedPreferences("FAVORITE_CITIES_WEATHER_DATA", Context.MODE_PRIVATE)
         //val editor = sharedPreferences.edit()
         //editor.putString("username", "John")
         //editor.apply()
@@ -28,16 +28,15 @@ class FavoritesActivity : AppCompatActivity() {
 
     fun addCity(view: View){
         CITY = etCityToAdd.getText().toString()
-        WEATHER_DATA = WeatherData(CITY).DataLoader().execute().get()
-        Log.d("INFO", WEATHER_DATA)
+        CITY_WEATHER_DATA = WeatherData(CITY).DataLoader().execute().get()
+        Log.d("INFO", CITY_WEATHER_DATA)
 
         val parentLayout = findViewById<LinearLayout>(R.id.linearLayout0)
         val btnCity: Button = Button(this)
         btnCity.text = CITY
         btnCity.setOnClickListener {
             val intent: Intent = Intent(this, WeatherActivity::class.java)
-            intent.putExtra("CITY", CITY)
-            intent.putExtra("WEATHER_DATA", WEATHER_DATA)
+            intent.putExtra("CITY_WEATHER_DATA", CITY_WEATHER_DATA)
             startActivity(intent)
         }
         parentLayout.addView(btnCity)

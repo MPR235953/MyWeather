@@ -6,6 +6,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import org.json.JSONObject
 
 
 class WeatherActivity : AppCompatActivity(){
@@ -13,7 +14,7 @@ class WeatherActivity : AppCompatActivity(){
     lateinit var tvCity: TextView
 
     lateinit var CITY: String
-    lateinit var WEATHER_DATA: String
+    lateinit var CITY_WEATHER_DATA: String
 
     private var pointer: Int = 0
     private val fragments = arrayOf(
@@ -28,8 +29,9 @@ class WeatherActivity : AppCompatActivity(){
 
         tvCity = findViewById(R.id.tvCity)
 
-        CITY = getIntent().getStringExtra("CITY").toString()
-        WEATHER_DATA = getIntent().getStringExtra("WEATHER_DATA").toString()
+        CITY_WEATHER_DATA = getIntent().getStringExtra("CITY_WEATHER_DATA").toString()
+        val jsonData = JSONObject(CITY_WEATHER_DATA)
+        CITY = jsonData.getString("name")
 
         tvCity.setText(CITY)
         replaceFragment()
@@ -64,7 +66,7 @@ class WeatherActivity : AppCompatActivity(){
             tvStatus.isVisible = true
         }
         else{
-            WEATHER_DATA = WeatherData(CITY).DataLoader().execute().get()
+            CITY_WEATHER_DATA = WeatherData(CITY).DataLoader().execute().get()
             tvStatus.isVisible = false
             fragments[pointer].update()
         }

@@ -23,7 +23,7 @@ class FragmentWeatherExtraInfo : MyFragment() {
 
     override fun update(){
         val activity: WeatherActivity = activity as WeatherActivity
-        val jsonData = JSONObject(activity.WEATHER_DATA)
+        val jsonData = JSONObject(activity.CITY_WEATHER_DATA)
 
         val windForce = jsonData.getJSONObject("wind").getDouble("speed")
         val windDirection = jsonData.getJSONObject("wind").getDouble("deg")

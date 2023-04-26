@@ -37,8 +37,7 @@ class MainActivity : AppCompatActivity() {
         val intent: Intent = Intent(this, WeatherActivity::class.java)
         CITY = etCity.getText().toString()
 
-        intent.putExtra("CITY", CITY)
-        intent.putExtra("WEATHER_DATA", WeatherData(CITY).DataLoader().execute().get())
+        intent.putExtra("CITY_WEATHER_DATA", WeatherData(CITY).DataLoader().execute().get())
 
         startActivity(intent)
     }
