@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.Fragment
+import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.util.Date
 
 
 class FragmentWeatherBasicInfo : MyFragment() {
@@ -22,9 +24,18 @@ class FragmentWeatherBasicInfo : MyFragment() {
     }
 
     override fun update(){
-        (thisView.findViewById(R.id.tvTime) as TextView).setText(WeatherParser.time)
-        (thisView.findViewById(R.id.tvCords) as TextView).setText(WeatherParser.cords[0].toBigDecimal().toPlainString()+ ", " + WeatherParser.cords[1].toBigDecimal().toPlainString())
-        (thisView.findViewById(R.id.tvTemp) as TextView).setText(WeatherParser.temp.toBigDecimal().toPlainString())
-        (thisView.findViewById(R.id.tvPress) as TextView).setText(WeatherParser.press.toBigDecimal().toPlainString())
+        val activity: WeatherActivity = activity as WeatherActivity
+        val jsonData = JSONObject(activity.WEATHER_DATA)
+
+        val time = SimpleDateFormat("hh:mm:ss").format(Date())
+        val cordLon = jsonData.getJSONObject("coord").getDouble("lon")
+        val cordLat = jsonData.getJSONObject("coord").getDouble("lat")
+        val temp = jsonData.getJSONObject("main").getDouble("temp")
+        val press = jsonData.getJSONObject("main").getDouble("pressure")
+
+        (thisView.findViewById(R.id.tvTime) as TextView).setText(time)
+        (thisView.findViewById(R.id.tvCords) as TextView).setText(cordLon.toBigDecimal().toPlainString()+ ", " + cordLat.toBigDecimal().toPlainString())
+        (thisView.findViewById(R.id.tvTemp) as TextView).setText(temp.toBigDecimal().toPlainString())
+        (thisView.findViewById(R.id.tvPress) as TextView).setText(press.toBigDecimal().toPlainString())
     }
 }

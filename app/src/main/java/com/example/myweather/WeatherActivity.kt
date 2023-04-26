@@ -1,18 +1,19 @@
 package com.example.myweather
 
-import android.os.AsyncTask.execute
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 
+
 class WeatherActivity : AppCompatActivity(){
     lateinit var tvStatus: TextView
-    lateinit var weatherParser: WeatherParser
     lateinit var tvCity: TextView
+
+    lateinit var CITY: String
+    lateinit var WEATHER_DATA: String
 
     private var pointer: Int = 0
     private val fragments = arrayOf(
@@ -24,9 +25,13 @@ class WeatherActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
-        weatherParser = getIntent().getSerializableExtra("weather_parser") as WeatherParser
+
         tvCity = findViewById(R.id.tvCity)
-        tvCity.setText(weatherParser.city)
+
+        CITY = getIntent().getStringExtra("CITY").toString()
+        WEATHER_DATA = getIntent().getStringExtra("WEATHER_DATA").toString()
+
+        tvCity.setText(CITY)
         replaceFragment()
     }
 
@@ -59,7 +64,7 @@ class WeatherActivity : AppCompatActivity(){
             tvStatus.isVisible = true
         }
         else{
-            weatherParser.weatherTask().execute().get()
+            WEATHER_DATA = WeatherData(CITY).DataLoader().execute().get()
             tvStatus.isVisible = false
             fragments[pointer].update()
         }

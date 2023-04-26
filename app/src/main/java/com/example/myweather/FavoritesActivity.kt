@@ -1,34 +1,52 @@
 package com.example.myweather
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class FavoritesActivity : AppCompatActivity() {
     lateinit var etCityToAdd: EditText
-    lateinit var weatherParser: WeatherParser
-    var favoriteCities = mutableListOf<LinearLayout>()
+    lateinit var CITY: String
+    lateinit var WEATHER_DATA: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorites)
-        weatherParser = getIntent().getSerializableExtra("weather_parser") as WeatherParser
+
         etCityToAdd = findViewById(R.id.etCityToAdd)
+
+        //val sharedPreferences = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
+        //val editor = sharedPreferences.edit()
+        //editor.putString("username", "John")
+        //editor.apply()
     }
 
     fun addCity(view: View){
-        var city: String = etCityToAdd.getText().toString()
+        CITY = etCityToAdd.getText().toString()
+        WEATHER_DATA = WeatherData(CITY).DataLoader().execute().get()
+        Log.d("INFO", WEATHER_DATA)
 
         val parentLayout = findViewById<LinearLayout>(R.id.linearLayout0)
-        val inflater = LayoutInflater.from(this)
-        val subLayout = inflater.inflate(R.layout.element_favorite_city, parentLayout, false)
-        parentLayout.addView(subLayout)
-        
+        val btnCity: Button = Button(this)
+        btnCity.text = CITY
+        btnCity.setOnClickListener {
+            val intent: Intent = Intent(this, WeatherActivity::class.java)
+            intent.putExtra("CITY", CITY)
+            intent.putExtra("WEATHER_DATA", WEATHER_DATA)
+            startActivity(intent)
+        }
+        parentLayout.addView(btnCity)
+
+        //val parentLayout = findViewById<LinearLayout>(R.id.linearLayout0)
+        //val inflater = LayoutInflater.from(this)
+        //val subLayout = inflater.inflate(R.layout.element_favorite_city, parentLayout, false)
+        //parentLayout.addView(subLayout)
+
 
         //val parentLayout = findViewById<LinearLayout>(R.id.linearLayout0)
 
@@ -45,8 +63,11 @@ class FavoritesActivity : AppCompatActivity() {
         //parentLayout.addView(layout)
     }
 
-    fun delCity(view: View){
+    fun delCityData(view: View){
 
+    }
+
+    fun loadCityData(view: View){
 
     }
 }
