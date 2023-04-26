@@ -29,10 +29,10 @@ class FragmentWeatherBasicInfo : MyFragment() {
         val settingsMap = JSONObject(activity.WEATHER_SETTINGS)
 
         val time = weatherJsonData.getJSONArray("time")[0] as String
-        val cordLon = weatherJsonData.getJSONObject("coord").getString("lon")
-        val cordLat = weatherJsonData.getJSONObject("coord").getString("lat")
-        var temp = weatherJsonData.getJSONObject("main").getString("temp")
-        val press = weatherJsonData.getJSONObject("main").getString("pressure")
+        val cordLon = weatherJsonData.getJSONObject("city").getJSONObject("coord").getString("lon")
+        val cordLat = weatherJsonData.getJSONObject("city").getJSONObject("coord").getString("lat")
+        var temp = weatherJsonData.getJSONArray("list").getJSONObject(0).getJSONObject("main").getString("temp")
+        val press = weatherJsonData.getJSONArray("list").getJSONObject(0).getJSONObject("main").getString("pressure")
 
         if(temp.split(" ")[1] != settingsMap["temp_unit"].toString()[0].toString()){
             if(settingsMap["temp_unit"] == "Fahrenheit")

@@ -38,6 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:padding="20dp"
                 tools:srcCompat="@tools:sample/avatars"/>
 
             <TextView
@@ -64,6 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:padding="20dp"
                 tools:srcCompat="@tools:sample/avatars"/>
 
             <TextView
@@ -90,6 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:padding="20dp"
                 tools:srcCompat="@tools:sample/avatars"/>
 
             <TextView

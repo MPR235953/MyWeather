@@ -24,14 +24,14 @@ class WeatherData : java.io.Serializable{
         override fun doInBackground(vararg params: String?): String? {
             var result: String?
             try {
-                result = URL("https://api.openweathermap.org/data/2.5/weather?q=$CITY&units=metric&appid=$API_KEY").readText(Charsets.UTF_8)
+                result = URL("https://api.openweathermap.org/data/2.5/forecast?q=$CITY&units=metric&appid=$API_KEY").readText(Charsets.UTF_8)
                 val jsonData = JSONObject(result)
                 jsonData.append("time", SimpleDateFormat("hh:mm:ss a").format(Date()))
-                jsonData.getJSONObject("main").put("temp", jsonData.getJSONObject("main").getString("temp") + " C")
-                jsonData.getJSONObject("main").put("pressure", jsonData.getJSONObject("main").getString("pressure") + " hPa")
-                jsonData.getJSONObject("wind").put("speed",jsonData.getJSONObject("wind").getString("speed") + " km/h")
-                jsonData.getJSONObject("wind").put("deg", jsonData.getJSONObject("wind").getString("deg") + " deg")
-                jsonData.getJSONObject("main").put("humidity", jsonData.getJSONObject("main").getString("humidity") + " g.m^(-3)")
+                jsonData.getJSONArray("list").getJSONObject(0).getJSONObject("main").put("temp", jsonData.getJSONArray("list").getJSONObject(0).getJSONObject("main").getString("temp") + " C")
+                jsonData.getJSONArray("list").getJSONObject(0).getJSONObject("main").put("pressure", jsonData.getJSONArray("list").getJSONObject(0).getJSONObject("main").getString("pressure") + " hPa")
+                jsonData.getJSONArray("list").getJSONObject(0).getJSONObject("wind").put("speed",jsonData.getJSONArray("list").getJSONObject(0).getJSONObject("wind").getString("speed") + " km/h")
+                jsonData.getJSONArray("list").getJSONObject(0).getJSONObject("wind").put("deg", jsonData.getJSONArray("list").getJSONObject(0).getJSONObject("wind").getString("deg") + " deg")
+                jsonData.getJSONArray("list").getJSONObject(0).getJSONObject("main").put("humidity", jsonData.getJSONArray("list").getJSONObject(0).getJSONObject("main").getString("humidity") + " g.m^(-3)")
                 result = jsonData.toString()
             }
             catch (e: Exception) {

@@ -26,9 +26,9 @@ class FragmentWeatherExtraInfo : MyFragment() {
         val jsonData = JSONObject(activity.CITY_WEATHER_DATA)
         val settingsMap = JSONObject(activity.WEATHER_SETTINGS)
 
-        var windForce = jsonData.getJSONObject("wind").getString("speed")
-        val windDirection = jsonData.getJSONObject("wind").getString("deg")
-        val humidity = jsonData.getJSONObject("main").getString("humidity")
+        var windForce = jsonData.getJSONArray("list").getJSONObject(0).getJSONObject("wind").getString("speed")
+        val windDirection = jsonData.getJSONArray("list").getJSONObject(0).getJSONObject("wind").getString("deg")
+        val humidity = jsonData.getJSONArray("list").getJSONObject(0).getJSONObject("main").getString("humidity")
 
         if(windForce.split(" ")[1] != settingsMap["windForce_unit"].toString()[0].toString()){
             if(settingsMap["windForce_unit"] == "km/h")

@@ -37,7 +37,7 @@ class WeatherActivity : AppCompatActivity(){
 
         CITY_WEATHER_DATA = getIntent().getStringExtra("CITY_WEATHER_DATA").toString()
         val jsonData = JSONObject(CITY_WEATHER_DATA)
-        CITY = jsonData.getString("name")
+        CITY = jsonData.getJSONObject("city").getString("name")
 
         tvCity.setText(CITY)
         replaceFragment()
