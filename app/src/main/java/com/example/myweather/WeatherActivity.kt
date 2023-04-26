@@ -1,5 +1,7 @@
 package com.example.myweather
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -13,6 +15,7 @@ class WeatherActivity : AppCompatActivity(){
     lateinit var tvStatus: TextView
     lateinit var tvCity: TextView
 
+    lateinit var WEATHER_SETTINGS: Map<String, *>
     lateinit var CITY: String
     lateinit var CITY_WEATHER_DATA: String
 
@@ -28,6 +31,9 @@ class WeatherActivity : AppCompatActivity(){
         setContentView(R.layout.activity_weather)
 
         tvCity = findViewById(R.id.tvCity)
+
+        val sharedPreferences: SharedPreferences = getSharedPreferences("WEATHER_SETTINGS", Context.MODE_PRIVATE)
+        WEATHER_SETTINGS = sharedPreferences.all
 
         CITY_WEATHER_DATA = getIntent().getStringExtra("CITY_WEATHER_DATA").toString()
         val jsonData = JSONObject(CITY_WEATHER_DATA)

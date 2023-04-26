@@ -1,6 +1,8 @@
 package com.example.myweather
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -32,6 +34,8 @@ class MainActivity : AppCompatActivity() {
             tvStatus.isVisible = true
         }
         else tvStatus.isVisible = false
+
+        setDefaultSettings()
     }
 
     fun toWeather(view: View){
@@ -53,8 +57,26 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun exit(){
+    fun exit(view: View){
         finish()
         exitProcess(0)
+    }
+
+    fun setDefaultSettings() {
+        // check if settings exists
+        val sharedPreferences: SharedPreferences = getSharedPreferences("WEATHER_SETTINGS", Context.MODE_PRIVATE)
+        val WEATHER_SETTINGS: Map<String, *> = sharedPreferences.all
+        if(WEATHER_SETTINGS.isEmpty()){
+            // save data on device
+            val editor = sharedPreferences.edit()
+            editor.putString("temp_unit", "Celsius")
+            editor.putString("time_unit", "12h")
+            editor.putString("press_unit", "hPa")
+            editor.putString("cords_unit", "lat-lon")
+            editor.putString("windForce_unit", "m/s")
+            editor.putString("windDirection_unit", "deg")
+            editor.putString("humidity_unit", "g.m^(-3)")
+            editor.apply()
+        }
     }
 }

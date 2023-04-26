@@ -26,7 +26,12 @@ class WeatherData : java.io.Serializable{
             try {
                 result = URL("https://api.openweathermap.org/data/2.5/weather?q=$CITY&units=metric&appid=$API_KEY").readText(Charsets.UTF_8)
                 val jsonData = JSONObject(result)
-                jsonData.append("time", SimpleDateFormat("hh:mm:ss").format(Date()))
+                jsonData.append("time", SimpleDateFormat("hh:mm:ss a").format(Date()))
+                jsonData.getJSONObject("main").put("temp", jsonData.getJSONObject("main").getString("temp") + " C")
+                jsonData.getJSONObject("main").put("pressure", jsonData.getJSONObject("main").getString("pressure") + " hPa")
+                jsonData.getJSONObject("wind").put("speed",jsonData.getJSONObject("wind").getString("speed") + " km/h")
+                jsonData.getJSONObject("wind").put("deg", jsonData.getJSONObject("wind").getString("deg") + " deg")
+                jsonData.getJSONObject("main").put("humidity", jsonData.getJSONObject("main").getString("humidity") + " g.m^(-3)")
                 result = jsonData.toString()
             }
             catch (e: Exception) {

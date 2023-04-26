@@ -24,13 +24,21 @@ class FragmentWeatherExtraInfo : MyFragment() {
     override fun update(){
         val activity: WeatherActivity = activity as WeatherActivity
         val jsonData = JSONObject(activity.CITY_WEATHER_DATA)
+        val settingsMap = JSONObject(activity.WEATHER_SETTINGS)
 
-        val windForce = jsonData.getJSONObject("wind").getDouble("speed")
-        val windDirection = jsonData.getJSONObject("wind").getDouble("deg")
-        val humidity = jsonData.getJSONObject("main").getDouble("humidity")
+        var windForce = jsonData.getJSONObject("wind").getString("speed")
+        val windDirection = jsonData.getJSONObject("wind").getString("deg")
+        val humidity = jsonData.getJSONObject("main").getString("humidity")
 
-        (thisView.findViewById(R.id.tvWindForce) as TextView).setText(windForce.toBigDecimal().toPlainString())
-        (thisView.findViewById(R.id.tvWindDirection) as TextView).setText(windDirection.toBigDecimal().toPlainString())
-        (thisView.findViewById(R.id.tvHumidity) as TextView).setText(humidity.toBigDecimal().toPlainString())
+        if(windForce.split(" ")[1] != settingsMap["windForce_unit"].toString()[0].toString()){
+            if(settingsMap["windForce_unit"] == "km/h")
+                windForce = (windForce.split(" ")[0].toDouble() * 1000 / 3600).toString() + " m/s"
+            else
+                windForce = (windForce.split(" ")[0].toDouble() * 3600 / 1000).toString() + " km/h"
+        }
+
+        (thisView.findViewById(R.id.tvWindForce) as TextView).setText(windForce)
+        (thisView.findViewById(R.id.tvWindDirection) as TextView).setText(windDirection)
+        (thisView.findViewById(R.id.tvHumidity) as TextView).setText(humidity)
     }
 }
