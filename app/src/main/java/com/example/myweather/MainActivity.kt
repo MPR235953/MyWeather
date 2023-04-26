@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
@@ -50,5 +51,10 @@ class MainActivity : AppCompatActivity() {
     fun toSettings(view: View){
         val intent: Intent = Intent(this, SettingsActivity::class.java)
         startActivity(intent)
+    }
+
+    fun exit(){
+        finish()
+        exitProcess(0)
     }
 }

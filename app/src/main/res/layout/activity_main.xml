@@ -103,6 +103,14 @@
             android:onClick="toSettings"
             android:textAllCaps="false" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnExit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Exit"
+            android:onClick="exit"
+            android:textAllCaps="false" />
+
 
     </LinearLayout>
 
