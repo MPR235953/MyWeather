@@ -30,6 +30,17 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.90" />
 
+    <Button
+        android:id="@+id/btnClearAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear"
+        android:onClick="clearAll"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline0"
+        app:layout_constraintEnd_toStartOf="@+id/etCityToAdd"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <EditText
         android:id="@+id/etCityToAdd"
         android:layout_width="wrap_content"
@@ -40,7 +51,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline0"
         app:layout_constraintEnd_toStartOf="@+id/btnAddCity"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/btnClearAll" />
 
     <Button
         android:id="@+id/btnAddCity"

@@ -1,6 +1,9 @@
 package com.example.myweather
 
+import android.annotation.SuppressLint
 import android.os.AsyncTask
+import android.os.Build
+import androidx.annotation.RequiresApi
 import org.json.JSONObject
 import java.net.URL
 import java.text.SimpleDateFormat
@@ -16,10 +19,15 @@ class WeatherData : java.io.Serializable{
 
     inner class DataLoader : AsyncTask<String, Void, String>() {
 
+        @SuppressLint("SimpleDateFormat")
+        @RequiresApi(Build.VERSION_CODES.TIRAMISU)
         override fun doInBackground(vararg params: String?): String? {
             var result: String?
             try {
                 result = URL("https://api.openweathermap.org/data/2.5/weather?q=$CITY&units=metric&appid=$API_KEY").readText(Charsets.UTF_8)
+                val jsonData = JSONObject(result)
+                jsonData.append("time", SimpleDateFormat("hh:mm:ss").format(Date()))
+                result = jsonData.toString()
             }
             catch (e: Exception) {
                 result = null

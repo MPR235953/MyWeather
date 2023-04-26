@@ -1,8 +1,9 @@
 package com.example.myweather
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -13,6 +14,8 @@ class FavoritesActivity : AppCompatActivity() {
     lateinit var etCityToAdd: EditText
     lateinit var CITY: String
     lateinit var CITY_WEATHER_DATA: String
+    lateinit var sharedPreferences: SharedPreferences
+    lateinit var FAVORITE_CITIES_WEATHER_DATA: Map<String, *>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,53 +23,49 @@ class FavoritesActivity : AppCompatActivity() {
 
         etCityToAdd = findViewById(R.id.etCityToAdd)
 
-        //val sharedPreferences = getSharedPreferences("FAVORITE_CITIES_WEATHER_DATA", Context.MODE_PRIVATE)
-        //val editor = sharedPreferences.edit()
-        //editor.putString("username", "John")
-        //editor.apply()
+        sharedPreferences = getSharedPreferences("FAVORITE_CITIES_WEATHER_DATA", Context.MODE_PRIVATE)
+        FAVORITE_CITIES_WEATHER_DATA = sharedPreferences.all
+        for ((city, city_weather_data) in FAVORITE_CITIES_WEATHER_DATA) {
+            addCityButton(city, city_weather_data as String)
+        }
     }
 
-    fun addCity(view: View){
-        CITY = etCityToAdd.getText().toString()
-        CITY_WEATHER_DATA = WeatherData(CITY).DataLoader().execute().get()
-        Log.d("INFO", CITY_WEATHER_DATA)
-
+    fun addCityButton(city: String, city_weather_data: String){
+        // configure add button
         val parentLayout = findViewById<LinearLayout>(R.id.linearLayout0)
         val btnCity: Button = Button(this)
-        btnCity.text = CITY
+        btnCity.text = city
         btnCity.setOnClickListener {
             val intent: Intent = Intent(this, WeatherActivity::class.java)
-            intent.putExtra("CITY_WEATHER_DATA", CITY_WEATHER_DATA)
+            intent.putExtra("CITY_WEATHER_DATA", city_weather_data)
             startActivity(intent)
         }
         parentLayout.addView(btnCity)
-
-        //val parentLayout = findViewById<LinearLayout>(R.id.linearLayout0)
-        //val inflater = LayoutInflater.from(this)
-        //val subLayout = inflater.inflate(R.layout.element_favorite_city, parentLayout, false)
-        //parentLayout.addView(subLayout)
-
-
-        //val parentLayout = findViewById<LinearLayout>(R.id.linearLayout0)
-
-        //val layout = LinearLayout(this)
-        //android:layout_width="match_parent"
-        //android:layout_weight="1"
-        //android:layout_height="0dp"
-        //android:background="#ddd"
-        //layout.layoutParams = LinearLayout.LayoutParams(
-        //    LinearLayout.LayoutParams.MATCH_PARENT,
-        //    LinearLayout.LayoutParams.WRAP_CONTENT
-        //)
-
-        //parentLayout.addView(layout)
     }
 
-    fun delCityData(view: View){
+    fun addCity(view: View){
+        // get weather data
+        CITY = etCityToAdd.getText().toString()
+        CITY_WEATHER_DATA = WeatherData(CITY).DataLoader().execute().get()
 
+        // save data on device
+        sharedPreferences = getSharedPreferences("FAVORITE_CITIES_WEATHER_DATA", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(CITY, CITY_WEATHER_DATA)
+        editor.apply()
+
+        // add city button
+        addCityButton(CITY, CITY_WEATHER_DATA)
     }
 
-    fun loadCityData(view: View){
+    fun clearAll(view: View){
+        // clear device memory
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
 
+        // clear views from layout
+        val parentLayout = findViewById<LinearLayout>(R.id.linearLayout0)
+        parentLayout.removeAllViews()
     }
 }
