@@ -48,6 +48,19 @@ class MainActivity : AppCompatActivity() {
             val toast = Toast.makeText(applicationContext, "No internet connection", Toast.LENGTH_SHORT)
             toast.show()
             tvStatus?.let { setStatus(true) }
+
+            // in case lack of internet, try to find saved data on device
+            val sharedPreferences = getSharedPreferences("FAVORITE_CITIES_WEATHER_DATA", Context.MODE_PRIVATE)
+            val FAVORITE_CITIES_WEATHER_DATA = sharedPreferences.all
+            for ((city, city_weather_data) in FAVORITE_CITIES_WEATHER_DATA) {
+                if(city == CITY){
+                    val intent: Intent = Intent(this, WeatherActivity::class.java)
+                    intent.putExtra("CITY_WEATHER_DATA", city_weather_data as String)
+                    startActivity(intent)
+                    break
+                }
+            }
+
         }
         else{
             tvStatus?.let { setStatus(false) }
