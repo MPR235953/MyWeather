@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 
 fun isOnline(context: AppCompatActivity): Boolean {
     val connectivityManager =
@@ -26,4 +27,11 @@ fun isOnline(context: AppCompatActivity): Boolean {
         }
     }
     return false
+}
+
+fun toggleStatue(visibility: Boolean){
+    if(MainActivity.tvStatus != null) MainActivity.tvStatus!!.isVisible = visibility
+    if(WeatherActivity.tvStatus != null) WeatherActivity.tvStatus!!.isVisible = visibility
+    if(FavoritesActivity.tvStatus != null) FavoritesActivity.tvStatus!!.isVisible = visibility
+    if(SettingsActivity.tvStatus != null) SettingsActivity.tvStatus!!.isVisible = visibility
 }

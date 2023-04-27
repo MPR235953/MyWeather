@@ -1,14 +1,21 @@
 package com.example.myweather
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class SettingsActivity : AppCompatActivity() {
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        var tvStatus: TextView? = null
+    }
+
     lateinit var sTemp: Spinner
     lateinit var sTime: Spinner
     lateinit var sPress: Spinner
@@ -19,6 +26,8 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+
+        tvStatus = findViewById(R.id.tvStatus)
 
         sTemp = findViewById(R.id.sTemp)
         ArrayAdapter.createFromResource(this,R.array.saTemp,android.R.layout.simple_spinner_item).also { adapter ->

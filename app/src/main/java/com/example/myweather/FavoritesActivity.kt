@@ -1,5 +1,6 @@
 package com.example.myweather
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -8,10 +9,17 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 
 class FavoritesActivity : AppCompatActivity() {
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        var tvStatus: TextView? = null
+    }
+
     lateinit var etCityToAdd: EditText
     lateinit var CITY: String
     lateinit var CITY_WEATHER_DATA: String
@@ -23,6 +31,7 @@ class FavoritesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_favorites)
 
         etCityToAdd = findViewById(R.id.etCityToAdd)
+        tvStatus = findViewById(R.id.tvStatus)
 
         sharedPreferences = getSharedPreferences("FAVORITE_CITIES_WEATHER_DATA", Context.MODE_PRIVATE)
         FAVORITE_CITIES_WEATHER_DATA = sharedPreferences.all
@@ -48,19 +57,28 @@ class FavoritesActivity : AppCompatActivity() {
         // get weather data
         CITY = etCityToAdd.getText().toString()
         CITY_WEATHER_DATA = WeatherData(CITY).DataLoader().execute().get()
-        if(CITY_WEATHER_DATA == "error"){
-            val toast = Toast.makeText(applicationContext, "Incorrect city name", Toast.LENGTH_SHORT)
+        if(!isOnline(this)){
+            val toast = Toast.makeText(applicationContext, "No internet connection", Toast.LENGTH_SHORT)
             toast.show()
+            tvStatus?.let { toggleStatue(true) }
         }
         else{
-            // save data on device
-            sharedPreferences = getSharedPreferences("FAVORITE_CITIES_WEATHER_DATA", Context.MODE_PRIVATE)
-            val editor = sharedPreferences.edit()
-            editor.putString(CITY, CITY_WEATHER_DATA)
-            editor.apply()
+            tvStatus?.let { toggleStatue(false) }
 
-            // add city button
-            addCityButton(CITY, CITY_WEATHER_DATA)
+            if(CITY_WEATHER_DATA == "error"){
+                val toast = Toast.makeText(applicationContext, "Incorrect city name", Toast.LENGTH_SHORT)
+                toast.show()
+            }
+            else{
+                // save data on device
+                sharedPreferences = getSharedPreferences("FAVORITE_CITIES_WEATHER_DATA", Context.MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.putString(CITY, CITY_WEATHER_DATA)
+                editor.apply()
+
+                // add city button
+                addCityButton(CITY, CITY_WEATHER_DATA)
+            }
         }
     }
 

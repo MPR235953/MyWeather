@@ -1,5 +1,6 @@
 package com.example.myweather
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -15,9 +16,13 @@ import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        var tvStatus: TextView? = null
+    }
+
     var CITY: String = "Łódź"
     lateinit var CITY_WEATHER_DATA: String
-    lateinit var tvStatus: TextView
     lateinit var etCity: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,14 +32,9 @@ class MainActivity : AppCompatActivity() {
         Log.d("INFO", "started")
 
         etCity = findViewById(R.id.etCity)
-
         tvStatus = findViewById(R.id.tvStatus)
-        if(!isOnline(this)) {
-            val toast = Toast.makeText(applicationContext, "No internet connection", Toast.LENGTH_SHORT)
-            toast.show()
-            tvStatus.isVisible = true
-        }
-        else tvStatus.isVisible = false
+
+        if(!isOnline(this)) tvStatus?.let { toggleStatue(it.isVisible) }
 
         setDefaultSettings()
     }
@@ -44,13 +44,22 @@ class MainActivity : AppCompatActivity() {
         CITY = etCity.getText().toString()
 
         CITY_WEATHER_DATA = WeatherData(CITY).DataLoader().execute().get()
-        if(CITY_WEATHER_DATA == "error"){
-            val toast = Toast.makeText(applicationContext, "Incorrect city name", Toast.LENGTH_SHORT)
+        if(!isOnline(this)){
+            val toast = Toast.makeText(applicationContext, "No internet connection", Toast.LENGTH_SHORT)
             toast.show()
+            tvStatus?.let { toggleStatue(true) }
         }
         else{
-            intent.putExtra("CITY_WEATHER_DATA", CITY_WEATHER_DATA)
-            startActivity(intent)
+            tvStatus?.let { toggleStatue(false) }
+
+            if(CITY_WEATHER_DATA == "error"){
+                val toast = Toast.makeText(applicationContext, "Incorrect city name", Toast.LENGTH_SHORT)
+                toast.show()
+            }
+            else{
+                intent.putExtra("CITY_WEATHER_DATA", CITY_WEATHER_DATA)
+                startActivity(intent)
+            }
         }
     }
 

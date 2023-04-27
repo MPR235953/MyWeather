@@ -1,5 +1,6 @@
 package com.example.myweather
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -12,7 +13,11 @@ import org.json.JSONObject
 
 
 class WeatherActivity : AppCompatActivity(){
-    lateinit var tvStatus: TextView
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        var tvStatus: TextView? = null
+    }
+
     lateinit var tvCity: TextView
 
     lateinit var WEATHER_SETTINGS: Map<String, *>
@@ -31,6 +36,9 @@ class WeatherActivity : AppCompatActivity(){
         setContentView(R.layout.activity_weather)
 
         tvCity = findViewById(R.id.tvCity)
+        tvStatus = findViewById(R.id.tvStatus)
+
+        if(!isOnline(this)) tvStatus?.let { toggleStatue(it.isVisible) }
 
         val sharedPreferences: SharedPreferences = getSharedPreferences("WEATHER_SETTINGS", Context.MODE_PRIVATE)
         WEATHER_SETTINGS = sharedPreferences.all
@@ -65,16 +73,20 @@ class WeatherActivity : AppCompatActivity(){
     }
 
     fun refresh(view: View){
-        tvStatus = findViewById(R.id.tvStatus)
-        if(!isOnline(this)) {
+        CITY_WEATHER_DATA = WeatherData(CITY).DataLoader().execute().get()
+        if(!isOnline(this)){
             val toast = Toast.makeText(applicationContext, "No internet connection", Toast.LENGTH_SHORT)
             toast.show()
-            tvStatus.isVisible = true
+            tvStatus?.let { toggleStatue(true) }
         }
         else{
-            CITY_WEATHER_DATA = WeatherData(CITY).DataLoader().execute().get()
-            tvStatus.isVisible = false
-            fragments[pointer].update()
+            tvStatus?.let { toggleStatue(false) }
+
+            if(CITY_WEATHER_DATA == "error"){
+                val toast = Toast.makeText(applicationContext, "Incorrect city name", Toast.LENGTH_SHORT)
+                toast.show()
+            }
+            else fragments[pointer].update()
         }
     }
 }
