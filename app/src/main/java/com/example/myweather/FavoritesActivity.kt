@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class FavoritesActivity : AppCompatActivity() {
@@ -47,15 +48,20 @@ class FavoritesActivity : AppCompatActivity() {
         // get weather data
         CITY = etCityToAdd.getText().toString()
         CITY_WEATHER_DATA = WeatherData(CITY).DataLoader().execute().get()
+        if(CITY_WEATHER_DATA == "error"){
+            val toast = Toast.makeText(applicationContext, "Incorrect city name", Toast.LENGTH_SHORT)
+            toast.show()
+        }
+        else{
+            // save data on device
+            sharedPreferences = getSharedPreferences("FAVORITE_CITIES_WEATHER_DATA", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putString(CITY, CITY_WEATHER_DATA)
+            editor.apply()
 
-        // save data on device
-        sharedPreferences = getSharedPreferences("FAVORITE_CITIES_WEATHER_DATA", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putString(CITY, CITY_WEATHER_DATA)
-        editor.apply()
-
-        // add city button
-        addCityButton(CITY, CITY_WEATHER_DATA)
+            // add city button
+            addCityButton(CITY, CITY_WEATHER_DATA)
+        }
     }
 
     fun clearAll(view: View){

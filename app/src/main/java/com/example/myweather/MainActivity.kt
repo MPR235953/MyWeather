@@ -16,6 +16,7 @@ import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
     var CITY: String = "Łódź"
+    lateinit var CITY_WEATHER_DATA: String
     lateinit var tvStatus: TextView
     lateinit var etCity: EditText
 
@@ -42,9 +43,15 @@ class MainActivity : AppCompatActivity() {
         val intent: Intent = Intent(this, WeatherActivity::class.java)
         CITY = etCity.getText().toString()
 
-        intent.putExtra("CITY_WEATHER_DATA", WeatherData(CITY).DataLoader().execute().get())
-
-        startActivity(intent)
+        CITY_WEATHER_DATA = WeatherData(CITY).DataLoader().execute().get()
+        if(CITY_WEATHER_DATA == "error"){
+            val toast = Toast.makeText(applicationContext, "Incorrect city name", Toast.LENGTH_SHORT)
+            toast.show()
+        }
+        else{
+            intent.putExtra("CITY_WEATHER_DATA", CITY_WEATHER_DATA)
+            startActivity(intent)
+        }
     }
 
     fun toFavorites(view: View){

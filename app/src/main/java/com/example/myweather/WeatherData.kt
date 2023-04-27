@@ -3,6 +3,7 @@ package com.example.myweather
 import android.annotation.SuppressLint
 import android.os.AsyncTask
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import org.json.JSONObject
 import java.net.URL
@@ -35,7 +36,7 @@ class WeatherData : java.io.Serializable{
                 result = jsonData.toString()
             }
             catch (e: Exception) {
-                result = null
+                result = "error"
             }
             return result
         }
