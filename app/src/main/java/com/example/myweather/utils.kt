@@ -29,7 +29,7 @@ fun isOnline(context: AppCompatActivity): Boolean {
     return false
 }
 
-fun toggleStatue(visibility: Boolean){
+fun setStatus(visibility: Boolean){
     if(MainActivity.tvStatus != null) MainActivity.tvStatus!!.isVisible = visibility
     if(WeatherActivity.tvStatus != null) WeatherActivity.tvStatus!!.isVisible = visibility
     if(FavoritesActivity.tvStatus != null) FavoritesActivity.tvStatus!!.isVisible = visibility

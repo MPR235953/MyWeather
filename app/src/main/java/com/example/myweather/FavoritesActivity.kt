@@ -32,6 +32,7 @@ class FavoritesActivity : AppCompatActivity() {
 
         etCityToAdd = findViewById(R.id.etCityToAdd)
         tvStatus = findViewById(R.id.tvStatus)
+        if(!isOnline(this)) tvStatus?.let { setStatus(true) }
 
         sharedPreferences = getSharedPreferences("FAVORITE_CITIES_WEATHER_DATA", Context.MODE_PRIVATE)
         FAVORITE_CITIES_WEATHER_DATA = sharedPreferences.all
@@ -60,10 +61,10 @@ class FavoritesActivity : AppCompatActivity() {
         if(!isOnline(this)){
             val toast = Toast.makeText(applicationContext, "No internet connection", Toast.LENGTH_SHORT)
             toast.show()
-            tvStatus?.let { toggleStatue(true) }
+            tvStatus?.let { setStatus(true) }
         }
         else{
-            tvStatus?.let { toggleStatue(false) }
+            tvStatus?.let { setStatus(false) }
 
             if(CITY_WEATHER_DATA == "error"){
                 val toast = Toast.makeText(applicationContext, "Incorrect city name", Toast.LENGTH_SHORT)

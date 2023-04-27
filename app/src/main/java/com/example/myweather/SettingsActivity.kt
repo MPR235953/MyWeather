@@ -28,6 +28,7 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         tvStatus = findViewById(R.id.tvStatus)
+        if(!isOnline(this)) tvStatus?.let { setStatus(true) }
 
         sTemp = findViewById(R.id.sTemp)
         ArrayAdapter.createFromResource(this,R.array.saTemp,android.R.layout.simple_spinner_item).also { adapter ->

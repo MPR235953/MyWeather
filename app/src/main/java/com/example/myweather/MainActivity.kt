@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         etCity = findViewById(R.id.etCity)
         tvStatus = findViewById(R.id.tvStatus)
 
-        if(!isOnline(this)) tvStatus?.let { toggleStatue(it.isVisible) }
+        if(!isOnline(this)) tvStatus?.let { setStatus(true) }
 
         setDefaultSettings()
     }
@@ -47,10 +47,10 @@ class MainActivity : AppCompatActivity() {
         if(!isOnline(this)){
             val toast = Toast.makeText(applicationContext, "No internet connection", Toast.LENGTH_SHORT)
             toast.show()
-            tvStatus?.let { toggleStatue(true) }
+            tvStatus?.let { setStatus(true) }
         }
         else{
-            tvStatus?.let { toggleStatue(false) }
+            tvStatus?.let { setStatus(false) }
 
             if(CITY_WEATHER_DATA == "error"){
                 val toast = Toast.makeText(applicationContext, "Incorrect city name", Toast.LENGTH_SHORT)
