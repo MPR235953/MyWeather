@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.Guideline
 import androidx.core.view.isVisible
 import org.json.JSONObject
 
@@ -35,6 +37,10 @@ class WeatherActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
 
+        // get a tag to handle with phone or tablet
+        val glTag = findViewById<Guideline>(R.id.glTag)
+        val tag = glTag.tag.toString()
+
         tvCity = findViewById(R.id.tvCity)
         tvStatus = findViewById(R.id.tvStatus)
 
@@ -48,7 +54,19 @@ class WeatherActivity : AppCompatActivity(){
         CITY = jsonData.getJSONObject("city").getString("name")
 
         tvCity.setText(CITY)
-        replaceFragment()
+
+        // set up fragments in appropriate way
+        if(tag == "phone") replaceFragment()
+        else setUpAllFragments()
+    }
+
+    private fun setUpAllFragments(){
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragment_container_view_0, fragments[0])
+        fragmentTransaction.replace(R.id.fragment_container_view_1, fragments[1])
+        fragmentTransaction.replace(R.id.fragment_container_view_2, fragments[2])
+        fragmentTransaction.commit()
     }
 
     private fun replaceFragment(){
