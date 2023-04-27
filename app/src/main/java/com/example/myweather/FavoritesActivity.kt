@@ -71,14 +71,28 @@ class FavoritesActivity : AppCompatActivity() {
                 toast.show()
             }
             else{
-                // save data on device
                 sharedPreferences = getSharedPreferences("FAVORITE_CITIES_WEATHER_DATA", Context.MODE_PRIVATE)
-                val editor = sharedPreferences.edit()
-                editor.putString(CITY, CITY_WEATHER_DATA)
-                editor.apply()
 
-                // add city button
-                addCityButton(CITY, CITY_WEATHER_DATA)
+                // actualize or not if data already exist
+                if(sharedPreferences.all.get(CITY) != null){
+                    val toast = Toast.makeText(applicationContext, "Weather data was actualized", Toast.LENGTH_SHORT)
+                    toast.show()
+                    // save data on device
+                    val editor = sharedPreferences.edit()
+                    editor.putString(CITY, CITY_WEATHER_DATA)
+                    editor.apply()
+
+                    updateFavorites(view)
+                }
+                else{
+                    // save data on device
+                    val editor = sharedPreferences.edit()
+                    editor.putString(CITY, CITY_WEATHER_DATA)
+                    editor.apply()
+
+                    // add button to view
+                    addCityButton(CITY, CITY_WEATHER_DATA)
+                }
             }
         }
     }
@@ -92,5 +106,18 @@ class FavoritesActivity : AppCompatActivity() {
         // clear views from layout
         val parentLayout = findViewById<LinearLayout>(R.id.linearLayout0)
         parentLayout.removeAllViews()
+    }
+
+    fun updateFavorites(view: View){
+        // delete all views, but not data
+        val parentLayout = findViewById<LinearLayout>(R.id.linearLayout0)
+        parentLayout.removeAllViews()
+
+        // create all views
+        sharedPreferences = getSharedPreferences("FAVORITE_CITIES_WEATHER_DATA", Context.MODE_PRIVATE)
+        FAVORITE_CITIES_WEATHER_DATA = sharedPreferences.all
+        for ((city, city_weather_data) in FAVORITE_CITIES_WEATHER_DATA) {
+            addCityButton(city, city_weather_data as String)
+        }
     }
 }
