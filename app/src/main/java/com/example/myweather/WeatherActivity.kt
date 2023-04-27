@@ -62,7 +62,7 @@ class WeatherActivity : AppCompatActivity(){
         else setUpAllFragments()
 
         // configure refreshDataTimer
-        refreshDataTimer = object : CountDownTimer(5000, 1000) {
+        refreshDataTimer = object : CountDownTimer(60000, 1000) {
             override fun onTick(millisUntilFinished: Long) {}
             override fun onFinish() {
                 refresh()
