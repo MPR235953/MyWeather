@@ -65,8 +65,6 @@ class WeatherActivity : AppCompatActivity(){
         refreshDataTimer = object : CountDownTimer(5000, 1000) {
             override fun onTick(millisUntilFinished: Long) {}
             override fun onFinish() {
-                val toast = Toast.makeText(applicationContext, "TEST", Toast.LENGTH_SHORT)
-                toast.show()
                 refresh()
                 refreshDataTimer.start()
             }
@@ -75,14 +73,15 @@ class WeatherActivity : AppCompatActivity(){
         refreshDataTimer.start()
     }
 
+    override fun onResume(){
+        super.onResume()
+        // resume timer
+        refreshDataTimer.start()
+    }
+
     override fun onPause() {
         super.onPause()
         // cancel when minimalized
-        refreshDataTimer.cancel()
-    }
-    override fun onDestroy() {
-        super.onDestroy()
-        // cancel when change activity by device button
         refreshDataTimer.cancel()
     }
 
