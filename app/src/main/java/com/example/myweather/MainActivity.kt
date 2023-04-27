@@ -11,7 +11,6 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import kotlin.system.exitProcess
 
 
@@ -37,6 +36,9 @@ class MainActivity : AppCompatActivity() {
         if(!isOnline(this)) tvStatus?.let { setStatus(true) }
 
         setDefaultSettings()
+
+        // start refreshing data
+        CheckConnectionTimer.start(this)
     }
 
     fun toWeather(view: View){
@@ -87,6 +89,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun exit(view: View){
+        CheckConnectionTimer.cancel()
         finish()
         exitProcess(0)
     }
