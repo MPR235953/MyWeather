@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -20,6 +21,7 @@ class WeatherActivity : AppCompatActivity(){
         var tvStatus: TextView? = null
     }
 
+    lateinit var refreshDataTimer: CountDownTimer
     lateinit var tvCity: TextView
 
     lateinit var WEATHER_SETTINGS: Map<String, *>
@@ -58,6 +60,30 @@ class WeatherActivity : AppCompatActivity(){
         // set up fragments in appropriate way
         if(tag == "phone") replaceFragment()
         else setUpAllFragments()
+
+        // configure refreshDataTimer
+        refreshDataTimer = object : CountDownTimer(5000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {}
+            override fun onFinish() {
+                val toast = Toast.makeText(applicationContext, "TEST", Toast.LENGTH_SHORT)
+                toast.show()
+                refresh()
+                refreshDataTimer.start()
+            }
+        }
+        // and start
+        refreshDataTimer.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // cancel when minimalized
+        refreshDataTimer.cancel()
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        // cancel when change activity by device button
+        refreshDataTimer.cancel()
     }
 
     private fun setUpAllFragments(){
@@ -90,7 +116,7 @@ class WeatherActivity : AppCompatActivity(){
         }
     }
 
-    fun refresh(view: View){
+    fun refresh(view: View? = null){
         CITY_WEATHER_DATA = WeatherData(CITY).DataLoader().execute().get()
         if(!isOnline(this)){
             val toast = Toast.makeText(applicationContext, "No internet connection", Toast.LENGTH_SHORT)
